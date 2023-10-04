@@ -101,24 +101,24 @@ Author URL: http://w3layouts.com
       </div>
 
 
-      <form class="text-center border border-light p-5" action="#!">
+      <form class="text-center border border-light p-5" onsubmit="sendEmail();">
 
         <!-- Name -->
-        <input type="text" id="defaultContactFormName" class="form-control mb-4" placeholder="Name">
+        <input type="text" id="name" class="form-control mb-4" placeholder="Name">
 
         <!-- Email -->
-        <input type="email" id="defaultContactFormEmail" class="form-control mb-4" placeholder="E-mail">
+        <input type="email" id="email" class="form-control mb-4" placeholder="E-mail">
 
         <!-- Phone no. -->
-        <input type="number" id="defaultContactFormEmail" class="form-control mb-4" placeholder="Phone no.">
+        <input type="number" id="phone" class="form-control mb-4" placeholder="Phone no.">
 
         <!-- Message -->
         <div class="form-group">
-            <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="How can i help you?"></textarea>
+            <textarea class="form-control rounded-0" id="message" rows="3" placeholder="How can i help you?"></textarea>
         </div>
 
         <!-- Send button -->
-        <button class="btn btn-danger btn-block" type="submit">Send</button>
+        <button class="btn btn-danger d-grid gap-2 d-md-block mx-auto col-3" type="submit">Send</button>
 
       </form>
 
@@ -252,6 +252,26 @@ Author URL: http://w3layouts.com
   </script>
   <!--//MENU-JS-->
   <script src="assets/js/bootstrap.min.js"></script>
+  <script src="https://smtpjs.com/v3/smtp.js">
+  </script>
+
+  <script>
+      function sendEmail(){
+        Email.send({
+      SecureToken : "d29fff0b-9c64-4334-91f9-e4319a5e5de0",
+      To : 'keedanuin@gmail.com',
+      From : document.getElementById('email').value,
+      Subject : "New Contact Form Enquiry",
+      Body : `Name: ${document.getElementById('name').value} <br>
+              Email: ${document.getElementById('email').value} <br>
+              Phone no.: ${document.getElementById('phone').value} <br>
+              Message: ${document.getElementById('message').value}
+      `
+  }).then(
+    message => alert("submited successfully!")
+  );
+      }
+  </script>
 
 </body>
 
