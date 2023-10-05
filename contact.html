@@ -101,20 +101,20 @@ Author URL: http://w3layouts.com
       </div>
 
 
-      <form class="text-center border border-light p-5" onsubmit="sendEmail();">
+      <form class="text-center border border-light p-5" id="my-form">
 
         <!-- Name -->
-        <input type="text" id="name" class="form-control mb-4" placeholder="Name">
+        <input type="text" name="name" id="name" class="form-control mb-4" placeholder="Name" required>
 
         <!-- Email -->
-        <input type="email" id="email" class="form-control mb-4" placeholder="E-mail">
+        <input type="email" name="email" id="email" class="form-control mb-4" placeholder="E-mail" required>
 
         <!-- Phone no. -->
-        <input type="number" id="phone" class="form-control mb-4" placeholder="Phone no.">
+        <input type="number" name="phone" id="phone" class="form-control mb-4" placeholder="Phone no." required>
 
         <!-- Message -->
         <div class="form-group">
-            <textarea class="form-control rounded-0" id="message" rows="3" placeholder="How can i help you?"></textarea>
+            <textarea class="form-control rounded-0" name="message" id="message" rows="3" placeholder="How can i help you?" required></textarea>
         </div>
 
         <!-- Send button -->
@@ -252,26 +252,56 @@ Author URL: http://w3layouts.com
   </script>
   <!--//MENU-JS-->
   <script src="assets/js/bootstrap.min.js"></script>
-  <script src="https://smtpjs.com/v3/smtp.js">
-  </script>
 
-  <script>
-      function sendEmail(){
-        Email.send({
-      SecureToken : "d29fff0b-9c64-4334-91f9-e4319a5e5de0",
-      To : 'adithyasnair25@gmail.com',
-      From : document.getElementById('email').value,
-      Subject : "New Contact Form Enquiry",
-      Body : `Name: ${document.getElementById('name').value} <br>
-              Email: ${document.getElementById('email').value} <br>
-              Phone no.: ${document.getElementById('phone').value} <br>
-              Message: ${document.getElementById('message').value}
-      `
-  }).then(
-    message => alert("submited successfully!")
-  );
-      }
-  </script>
+   <!-- Email-js cdn  -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <script> 
+    (function () {
+    emailjs.init("E2VQaU7xGa79H32wM") // change here to your emailJs public key;
+  })();
+  </script> 
+
+<script>
+  const serviceID = "service_0uo1266"; // change here to your emailJs serviceId
+  const templateID = "template_a6ioiyw"; // change here to your emailJs template id
+  
+
+  document.getElementById("my-form").addEventListener("submit",(event) => {
+      event.preventDefault();
+
+      const params = {
+      senderName: document.getElementById("name").value,
+      senderEmail: document.getElementById("email").value,
+      senderPhone: document.getElementById("phone").value,
+      message: document.getElementById("message").value
+  }
+
+      console.log(document.getElementById('name').value);
+      console.log(params.senderEmail);
+
+     emailjs.send(serviceID,templateID,params).then((res) => {
+         alert(`Thank you, ${params.senderName} Your message has been sent!`);
+
+    // resetting all inputs
+    const inputs = document.querySelectorAll('#name, #email, #phone, #message');
+
+        inputs.forEach(input => {
+          input.value = '';
+        });
+
+    },
+    (error) => {
+      alert("Something went wrong.Please try again!")
+      console.log(error);
+    }
+    )
+  })
+
+    
+       
+</script>
+
 
 </body>
 
